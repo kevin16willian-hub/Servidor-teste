@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>App Simples</title>
+  </head>
+  <body>
+    <h1>App Simples (Front HTML)</h1>
+    <div id="message">Carregando...</div>
+    <script>
+      fetch('/api/hello')
+        .then(r => r.json())
+        .then(j => { document.getElementById('message').textContent = j.message; })
+        .catch(() => { document.getElementById('message').textContent = 'Não foi possível contatar o servidor.'; });
+    </script>
+  </body>
+</html>
