@@ -73,3 +73,39 @@ Notas rápidas:
 - Se não tiver domínio ainda, gere um certificado self-signed para testes e aponte `ssl_certificate`/`ssl_certificate_key` no arquivo `nginx/simple_site.conf`.
 - `deploy/simple-app-rhel.service` assume que a aplicação ficará em `/home/ec2-user/app`.
 
+## Executar frontend e backend
+
+Backend (Node/Express)
+```bash
+# na raiz do projeto
+npm install
+
+# iniciar (se houver script "start" no package.json)
+npm start
+
+# ou alternativamente
+node server.js
+```
+
+Frontend (arquivos estáticos em `public/`)
+```bash
+# opção 1: servido pelo backend (após iniciar o backend, abrir http://localhost:3000)
+# opção 2: servir apenas o front em dev
+npx http-server public -p 8080
+# abrir http://localhost:8080
+```
+
+Produção (RHEL / AWS)
+```bash
+# iniciar via systemd (exemplo já incluído em deploy/simple-app-rhel.service)
+sudo systemctl enable --now simple-app
+sudo systemctl status simple-app
+
+# ou usar PM2
+sudo npm install -g pm2
+pm2 start server.js --name simple-app
+pm2 save
+sudo pm2 startup systemd
+```
+
+
